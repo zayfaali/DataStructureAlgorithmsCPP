@@ -2,16 +2,16 @@
 using namespace std;
 
 class heap {
-    public: 
-        int arr[20];
-        int size = 0;
-
-        heap(){
-            arr[0] = -1;
-            size = 0;
-        }
-
-   	
+	
+	public:
+		int arr[20];
+		int size;
+	
+	heap(){
+		arr[0] = -1;
+		size = 0;	
+	}
+		
 	void insert(int val){
 		size = size + 1;
 		int index = size;
@@ -27,41 +27,57 @@ class heap {
 					return;
 				}
 			}	
-
-    }
-
-    void del(){
+	}
+	void del(){
         if(size==0){
-            cout<<"nothing to delete"<<endl;
+            cout<<"nothing to delete ";
             return;
         }
-
-        //step 1: put last node in first index
-        arr[1] = arr[size];
-        //step 2: remove last element;
+        //step 1: put last element into first index
+        arr[1]=arr[size];
+        //step 2: remove last element 
         size--;
-
-        // step 3: take root node to its correct position
-        int index = 1;
-        while(index <= size){
-            int leftIndex = 2* index;
-            int rightIndex = 2 * index + 1;
-
-            if(leftIndex < size && arr[leftIndex] > arr[index]){
-                swap(arr[leftIndex] , arr[index]);
-                index = leftIndex;
-            }
-
-            else if(rightIndex < size && arr[rightIndex] > arr[index]){
-                swap(arr[rightIndex] , arr[index]);
-                index = rightIndex;
-            }
-            else {
-                return;
-            }
-        }
+        //step 3:take root node to its correct position
+        int i = 1;
+   		while ( i <= size )
+		{
+      		int left=2*i;
+      		int right=2*i+1;
+      		if(left <= size && right<=size){
+        		if (arr[left]>arr[right] && arr[left]>arr[i])
+        		{
+            	swap(arr[left],arr[i]);
+            	i=left;
+        		}
+        		else if(arr[left]<arr[right] && arr[right]>arr[i]){
+            	swap(arr[right],arr[i]);
+            	i=right;
+        		}
+        		else{
+            	return;
+        		}   
+      		}
+      		else if(left<=size &&arr[left]>arr[i]){
+        	swap(arr[left],arr[i]);
+        	i=left;
+      		}
+      		else if(right<=size && arr[right]>arr[i]){
+        	swap(arr[right],arr[i]);
+        	i=right;
+      		}
+     		else{
+        	return;
+      		}
+     		}   
     }
-   void heapify(int arr[], int n, int i) {
+
+	void print(){
+		for(int i = 1; i <= size; i++){
+			cout<<arr[i]<<" ";
+		}
+		cout<<endl;
+	}
+void heapify(int arr[], int n, int i) {
     // Find largest among root, left child and right child
     int largest = i;
     int left = 2 * i;
@@ -80,44 +96,40 @@ class heap {
     }
   }
 
-  void heapSort(int arr[] , int n){
 
-    int size = n;
-    while (size > 1)
-    {
-        // step 1: swap
-    swap( arr[1] , arr[n]);
-    size--;
-
-    //step 2: put the root in its correct position
-    heapify(arr, size, 1);
-    }
-    
-  }
-
-    void print(){
-        for(int i = 1; i <= size; i++){
-            cout << arr[i] << " ";
-        }cout<<endl;
-    }
-    
+  	void heapSort(int arr[], int n) {
+      int size = n;
+      while(size > 1){
+      	swap(arr[size], arr[1]);
+      	size--;
+	  
+      heapify(arr, size, 1);
+  		}    
+  	}
+	
 };
+
 int main(){
-    heap h;
-    h.insert(50);
-    h.insert(55);
-    h.insert(56);
-    h.insert(57);
-    h.insert(58);
-
-    h.print();
-    h.del();
-    h.print();
-
-    int arr[7] = {-1, 1, 12, 9, 5, 6, 10};
+	heap Heap;
+	Heap.insert(44);
+	Heap.insert(42);
+	Heap.insert(35);
+	Heap.insert(33);
+	Heap.insert(31);
+	Heap.insert(19);
+	Heap.insert(27);
+	Heap.insert(10);
+	Heap.insert(26);
+	Heap.insert(14);
+	Heap.print();
+	
+	Heap.del();
+	Heap.print();
+	
+	int arr[7] = {-1, 1, 12, 9, 5, 6, 10};
 	int n = 6;
 	for (int i = n/2; i > 0; i--){
-		h.heapify(arr, n, i);
+		Heap.heapify(arr, n, i);
 	}
 	cout<<"Print Array: ";
 	for(int i = 1; i <= n; i++){
@@ -125,12 +137,14 @@ int main(){
 		}
 		cout<<endl;
 
-        h.heapSort(arr,n);
+		
+	Heap.heapSort(arr,n);
 	cout<<"Print Sorted Array: ";
 	for(int i = 1; i <= n; i++){
 			cout<<arr[i]<<" ";
 		}
 		cout<<endl;
 		
-    return 0;
+	
+	return 0;
 }
